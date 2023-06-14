@@ -1,7 +1,8 @@
 import UserModel from '../model/User.model.js'
 import bcrypt from 'bcrypt'
-import pkg from 'jsonwebtoken';
-const { Jwt } = pkg
+import jwt from 'jsonwebtoken';
+// const { jwt } = pkg
+import ENV from '../config.js'
 
 
 /** POST: http://localhost:8080/api/register 
@@ -79,7 +80,7 @@ export async function login(req, res){
 
         // const existingUsername = UserModel.findOne({ username }).exec();
 
-        UserModel.findOne({username})
+        UserModel.findOne({ username })
             .then(user => {
                 bcrypt.compare(password, user.password)
                     .then(passwordCheck => {
@@ -87,22 +88,27 @@ export async function login(req, res){
                         if(!passwordCheck) return res.status(400).send({error: "How far na? You don't have a Password"})
 
                         //jwt token creation
-                        const token = Jwt.sign({
+                        const token = jwt.sign({
                                         userId: user._id,
                                         username : user.username
-                                    }, 'secret', {expiresIn : "24h"})
+                                    }, ENV.JWT_SECRET, {expiresIn : "24h"});
                         return res.status(200).send({
                             msg: "Logged in Successfully...!",
                             username: user.username,
                             token
-                        })
+                        });
                     })
                     .catch(error => {
-                        return res.status(400).send({error: "Password does not Match na"})
+                        return res.status(400).send({error: error.message})
+                        // console.error("Error comparing passwords:", error);
+                        // return res.status(500).send({ error: "Error comparing passwords" });
                     })
             })
             .catch(error => {
-                return res.status(400).send({error: "Username not Found na"});
+                return res.status(400).send({error: error.message});console.error(error); // Log the error for debugging purposes
+                // console.error("Error finding user:", error);
+                // return res.status(500).send({ error: "Error finding user" });
+
             })
     } catch (error) {
         return res.status(500).send({error: error.message})

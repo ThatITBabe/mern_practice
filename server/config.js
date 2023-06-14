@@ -1,3 +1,6 @@
 export default {
-    JWT_SECRET : "MeJ45gnxwht5+hBSR7u8O40xT0yYhe8lTW3MYHbKZj"
+    JWT_SECRET : "VbJwP+iDf2ZvzLWmn00++8wrte9g0qHsvehq3PtypzY="
 }
+
+
+
