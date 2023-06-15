@@ -3,10 +3,13 @@
 # dependencies
 client/node_modules
 server/node_modules
+server/config.js
+server/crypto.js
 client/.env
 server/.env
 /.pnp
 .pnp.js
+crypto.js
 
 # testing
 /coverage
