@@ -4,20 +4,25 @@ import avatar from '../assets/profile.png'
 import styles from '../styles/Username.module.css'
 import { Toaster } from 'react-hot-toast'
 import { useFormik } from 'formik'
-import { usernameValidate } from '../helper/validate'
-
+import { usernameValidate } from '../helper/validate.js'
+import { useAuthStore } from '../store/store.js'
 
 export default function Username() {
 
+    // const navigate = useNavigate();
+    const setUsername = useAuthStore(state => state.setUsername)
+    
     const formik = useFormik({
         initialValues : {
-            username: ''
+            username: 'anuoba'
         },
         validate : usernameValidate, 
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit: async values => {
-            console.log(values);
+            setUsername(values.username);
+            console.log(values)
+            // navigate('/password')
         }
     })
 
@@ -42,8 +47,8 @@ export default function Username() {
                         <input {...formik.getFieldProps('username')} className={styles.textbox} type='text' placeholder='Username'/>
                         <button className={styles.btn} type='submit'>Let's Go</button>
                         {/* <Link className={styles.btn} to="/password">Let's Go</Link> */}
-
                     </div>
+
                     <div className='text-center py-4'>
                         <span className='text-gray-500'>Not a member? <Link className='text-red-500' to='/register'>Register Now</Link></span>
                     </div>

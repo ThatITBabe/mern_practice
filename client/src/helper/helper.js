@@ -1,7 +1,9 @@
 import axios from 'axios'
 
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 
-/***make api req */
+/**make api req */
+ 
 
 
 /** authenticate function */
@@ -20,7 +22,7 @@ export async function getUser({ username }){
         const { data } = await axios.get(`/api/user/${username}`);
         return { data };
     } catch(error){
-        return { error : "Password doesn't match"}
+        return { error : "Password doesn't match...!"}
     }
 }
 
